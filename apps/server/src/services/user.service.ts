@@ -8,7 +8,7 @@ export interface IUserService {
   getUserByEmail(email: string): Promise<IUserDB>;
 }
 
-export class UserService {
+export class UserService implements IUserService {
   private repository: IUserRepository;
 
   constructor(repository: IUserRepository) {

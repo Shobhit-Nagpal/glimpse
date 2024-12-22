@@ -1,6 +1,6 @@
 import { PurchaseModel } from "../models/purchases/model";
 
-export class Purchase {
+export class PurchaseRepository {
   async createPurchase(
     buyer: string,
     seller: string,

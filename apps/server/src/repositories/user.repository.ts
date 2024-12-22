@@ -1,6 +1,6 @@
 import { UserModel } from "../models/users/model";
 
-export class User {
+export class UserRepository {
   async createUser(email: string) {
     return await UserModel.create({
       email,

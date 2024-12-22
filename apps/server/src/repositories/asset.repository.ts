@@ -1,6 +1,6 @@
 import { AssetModel } from "../models/assets/model";
 
-export class Asset {
+export class AssetRepository {
   async createAsset(
     name: string,
     description: string,

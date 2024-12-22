@@ -8,5 +8,9 @@ export interface IPurchase {
   amount: number;
 }
 
+export interface IPurchaseDB extends IPurchase {
+  id: string;
+}
+
 export interface IPurchaseDocument extends IPurchase, Mongoose.Document {}
 export interface IPurchaseModel extends Mongoose.Model<IPurchaseDocument> {}

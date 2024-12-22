@@ -7,5 +7,9 @@ export interface IAsset {
   price: number;
 }
 
+export interface IAssetDB extends IAsset {
+  id: string;
+}
+
 export interface IAssetDocument extends IAsset, Mongoose.Document {}
 export interface IAssetModel extends IAsset, Mongoose.Model<IAssetDocument> {}

@@ -7,5 +7,9 @@ export interface IUser {
   updatedAt: Date;
 }
 
+export interface IUserDB extends IUser {
+  id: string;
+}
+
 export interface IUserDocument extends IUser, Mongoose.Document {}
 export interface IUserModel extends Mongoose.Model<IUserDocument> {}

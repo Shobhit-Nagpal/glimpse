@@ -1,12 +1,12 @@
 import { Router } from "express";
 import { authenticate } from "../../middlewares/auth.middleware";
 
-const vRouter = Router();
+const v1Router = Router();
 
 //Auth middleware
-vRouter.use(authenticate);
+v1Router.use(authenticate);
 
 //Routes
 
 
-export { vRouter };
+export { v1Router };

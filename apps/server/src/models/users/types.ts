@@ -9,6 +9,7 @@ export interface IUser {
 
 export interface IUserDB extends IUser {
   id: string;
+  lastLogin: Date;
 }
 
 export interface IUserDocument extends IUser, Mongoose.Document {}

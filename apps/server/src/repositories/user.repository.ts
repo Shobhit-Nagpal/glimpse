@@ -1,16 +1,19 @@
 import { UserModel } from "../models/users/model";
 import { IUserDB } from "../models/users/types";
+import { TProvider } from "../types";
 
 export interface IUserRepository {
-  createUser(email: string): Promise<IUserDB>;
+  createUser(email: string, name: string, provider: TProvider): Promise<IUserDB>;
   getUserById(id: string): Promise<IUserDB>;
   getUserByEmail(email: string): Promise<IUserDB>;
 }
 
 export class UserRepository implements IUserRepository {
-  async createUser(email: string): Promise<IUserDB> {
+  async createUser(email: string, name: string, provider: TProvider): Promise<IUserDB> {
     const user = await UserModel.create({
       email,
+      name,
+      provider,
     });
 
     return this._mapToDomain(user);
@@ -39,6 +42,7 @@ export class UserRepository implements IUserRepository {
       email: user.email,
       createdAt: user.createdAt,
       updatedAt: user.createdAt,
+      lastLogin: user.lastLogin,
     };
   }
 }

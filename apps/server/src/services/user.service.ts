@@ -1,9 +1,14 @@
 import { IUserDB } from "../models/users/types";
 import { IUserRepository } from "../repositories/user.repository";
+import { TProvider } from "../types";
 import { isValidEmail } from "../utils/email";
 
 export interface IUserService {
-  createUser(email: string): Promise<IUserDB>;
+  createUser(
+    email: string,
+    name: string,
+    provider: TProvider,
+  ): Promise<IUserDB>;
   getUserById(id: string): Promise<IUserDB>;
   getUserByEmail(email: string): Promise<IUserDB>;
 }
@@ -15,7 +20,7 @@ export class UserService implements IUserService {
     this.repository = repository;
   }
 
-  async createUser(email: string) {
+  async createUser(email: string, name: string, provider: TProvider) {
     if (!email) {
       throw new Error("Email isn't provided");
     }
@@ -24,7 +29,7 @@ export class UserService implements IUserService {
       throw new Error("Email isn't valid");
     }
 
-    const user = await this.repository.createUser(email);
+    const user = await this.repository.createUser(email, name, provider);
 
     if (!user) {
       throw new Error("Couldn't create user");

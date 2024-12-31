@@ -6,7 +6,10 @@ const v1Router = Router();
 //Auth middleware
 v1Router.use(authenticate);
 
-//Routes
+v1Router.get("/idk", (req, res) => {
+  res.send("Ok")
+})
 
+//Routes
 
 export { v1Router };

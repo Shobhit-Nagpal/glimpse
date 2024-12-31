@@ -23,7 +23,7 @@ const PurchaseSchema = new Mongoose.Schema({
   amount: {
     type: Number,
     required: true,
-  }
+  },
 });
 
 export default PurchaseSchema;

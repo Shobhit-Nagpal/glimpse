@@ -3,13 +3,21 @@ import { IUserDB } from "../models/users/types";
 import { TProvider } from "../types";
 
 export interface IUserRepository {
-  createUser(email: string, name: string, provider: TProvider): Promise<IUserDB>;
+  createUser(
+    email: string,
+    name: string,
+    provider: TProvider,
+  ): Promise<IUserDB>;
   getUserById(id: string): Promise<IUserDB>;
   getUserByEmail(email: string): Promise<IUserDB>;
 }
 
 export class UserRepository implements IUserRepository {
-  async createUser(email: string, name: string, provider: TProvider): Promise<IUserDB> {
+  async createUser(
+    email: string,
+    name: string,
+    provider: TProvider,
+  ): Promise<IUserDB> {
     const user = await UserModel.create({
       email,
       name,

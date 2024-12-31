@@ -15,9 +15,9 @@ const GOOGLE_CLIENT_SECRET =
   process.env.GOOGLE_CLIENT_SECRET || "your_google_client_secret";
 
 const GITHUB_CLIENT_ID =
-  process.env.GOOGLE_CLIENT_ID || "your_google_client_id";
+  process.env.GITHUB_CLIENT_ID || "your_google_client_id";
 const GITHUB_CLIENT_SECRET =
-  process.env.GOOGLE_CLIENT_SECRET || "your_google_client_secret";
+  process.env.GITHUB_CLIENT_SECRET || "your_google_client_secret";
 
 const userRepository = new UserRepository();
 const userService = new UserService(userRepository);
@@ -35,43 +35,65 @@ export function initPassport() {
   }
 
   passport.use(
-    new GoogleStrategy({
-      clientID: GOOGLE_CLIENT_ID,
-      clientSecret: GOOGLE_CLIENT_SECRET,
-      callbackURL: "/auth/google/callback",
-    }),
-    async function(accessToken, refreshToken, profile, cb) {
-      //Create or update user here
-      const userEmail = profile.emails[0].value;
-      const user = await userService.getUserByEmail(userEmail);
+    new GoogleStrategy(
+      {
+        clientID: GOOGLE_CLIENT_ID,
+        clientSecret: GOOGLE_CLIENT_SECRET,
+        callbackURL: "http://localhost:3002/api/auth/google/callback",
+      },
+      async function (
+        _accessToken: string,
+        _refreshToken: string,
+        profile: any,
+        done: (error: any, user?: any) => void,
+      ) {
+        //Create or update user here
+        try {
+          const userEmail = profile.emails[0].value;
+          const user = await userService.getUserByEmail(userEmail);
 
-      if (!user) {
-        const newUser = userService.createUser(
-          userEmail,
-          profile.displayName,
-          Providers.GOOGLE as TProvider,
-        );
-        if (newUser) {
-          cb(null, newUser);
+          if (!user) {
+            const newUser = await userService.createUser(
+              userEmail,
+              profile.displayName,
+              Providers.GOOGLE as TProvider,
+            );
+
+            if (newUser) {
+              return done(null, newUser);
+            } else {
+              return done(new Error("Error creating user"));
+            }
+          } else {
+            return done(null, user);
+          }
+        } catch (err) {
+          return done(err);
         }
-      } else {
-        cb(null, user);
-      }
-    },
+      },
+    ),
   );
 
   passport.use(
-    new GitHubStrategy({
-      clientID: GITHUB_CLIENT_ID,
-      clientSecret: GITHUB_CLIENT_SECRET,
-      callbackURL: "/auth/github/callback",
-    }),
-    function (accessToken, refreshToken, profile, cb) {
-      //Create or update user here
-    },
+    new GitHubStrategy(
+      {
+        clientID: GITHUB_CLIENT_ID,
+        clientSecret: GITHUB_CLIENT_SECRET,
+        callbackURL: "/api/auth/github/callback",
+      },
+      async function (
+        _acessToken: string,
+        _refreshToken: string,
+        profile: any,
+        done: (error: any, user?: any) => void,
+      ) {
+        console.log("BOSS MANNNNNNNN");
+        return done(null, { id: "nnn" });
+      },
+    ),
   );
 
-  passport.serializeUser(function (user, cb) {
+  passport.serializeUser(function (user: any, cb) {
     process.nextTick(function () {
       return cb(null, {
         id: user.id,
@@ -80,7 +102,7 @@ export function initPassport() {
     });
   });
 
-  passport.deserializeUser(function (user, cb) {
+  passport.deserializeUser(function (user: any, cb) {
     process.nextTick(function () {
       return cb(null, user);
     });

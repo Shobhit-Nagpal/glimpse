@@ -4,18 +4,28 @@ const Environment = {
 };
 
 const PROD_BASE_URL = import.meta.env.VITE_PROD_BASE_URL;
+const PROD_API_VERSION = import.meta.env.VITE_PROD_API_VERSION;
+
 const DEV_BASE_URL = import.meta.env.VITE_DEV_BASE_URL;
+const DEV_API_VERSION = import.meta.env.VITE_DEV_API_VERSION;
 
 const development = {
   apiUrl: `${DEV_BASE_URL}/api`,
+  apiVersion: DEV_API_VERSION,
 };
 
 const production = {
   apiUrl: `${PROD_BASE_URL}/api`,
+  apiVersion: PROD_API_VERSION,
 };
 
 function getEnvironmentConfig() {
-  if (!PROD_BASE_URL || !DEV_BASE_URL) {
+  if (
+    !PROD_BASE_URL ||
+    !PROD_API_VERSION ||
+    !DEV_BASE_URL ||
+    !DEV_API_VERSION
+  ) {
     throw new Error("[config]:Configuration values are not provided in .env");
   }
 

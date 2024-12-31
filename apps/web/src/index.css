@@ -58,11 +58,3 @@
     --chart-5: 340 75% 55%;
   }
 }
-
-body {
-  margin: 0;
-  display: flex;
-  place-items: center;
-  box-sizing: border-box;
-  min-width: 320px;
-}

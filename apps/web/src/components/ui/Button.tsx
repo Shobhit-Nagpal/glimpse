@@ -17,7 +17,7 @@ export const Button = ({
 }: ButtonProps) => {
   const buttonClass = primary
     ? "bg-primary text-white"
-    : "bg-grey-400 border border-300 text-white";
+    : "bg-secondary border border-400 text-black";
 
   const sizeClass =
     size === "sm"

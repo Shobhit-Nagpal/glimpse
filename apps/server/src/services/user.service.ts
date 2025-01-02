@@ -9,8 +9,8 @@ export interface IUserService {
     name: string,
     provider: TProvider,
   ): Promise<IUserDB>;
-  getUserById(id: string): Promise<IUserDB>;
-  getUserByEmail(email: string): Promise<IUserDB>;
+  getUserById(id: string): Promise<IUserDB | null>;
+  getUserByEmail(email: string): Promise<IUserDB | null>;
 }
 
 export class UserService implements IUserService {
@@ -42,7 +42,7 @@ export class UserService implements IUserService {
     const user = await this.repository.getUserById(id);
 
     if (!user) {
-      throw new Error("User not found");
+      return null
     }
 
     return user;
@@ -60,7 +60,7 @@ export class UserService implements IUserService {
     const user = await this.repository.getUserByEmail(email);
 
     if (!user) {
-      throw new Error("User not found");
+      return null;
     }
 
     return user;
